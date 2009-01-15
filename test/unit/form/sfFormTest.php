@@ -351,7 +351,7 @@ $t->is($w['author']['company']->generateName('name'), 'article[author][company][
 
 // ->embedFormForEach()
 $t->diag('->embedFormForEach()');
-$article->embedFormForEach('authors', $author, 2);
+$article->embedFormForEach('authors', $author, 2, null, null, array('id_format' => '%s'), array('class' => 'embedded'));
 $v = $article->getValidatorSchema();
 $w = $article->getWidgetSchema();
 $d = $article->getDefaults();
