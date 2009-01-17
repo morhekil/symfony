@@ -749,13 +749,19 @@ class sfForm implements ArrayAccess
   /**
    * Removes a field from the form.
    *
-   * It removes the widget and the validator for the given field.
+   * It removes the widget, validator and any values stored for the given field.
    *
    * @param string $offset The field name
    */
   public function offsetUnset($offset)
   {
-    unset($this->widgetSchema[$offset], $this->validatorSchema[$offset]);
+    unset(
+      $this->widgetSchema[$offset],
+      $this->validatorSchema[$offset],
+      $this->defaults[$offset],
+      $this->taintedValues[$offset],
+      $this->values[$offset]
+    );
 
     $this->resetFormFields();
   }
