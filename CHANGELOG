@@ -1,3 +1,12 @@
+Version 1.1.7
+-------------
+
+* fixed wrong method call in i18n directories structure handling
+* fixed form serialization when PDO is used as a session handler
+* fixed problems could occur in mathematical operations when culture is different from en_US.utf8
+* fixed lime_coverage incorrectly reports 0% test coverage on Windows platform
+* fixed issue with cache file corruption due to heavy load
+
 Version 1.1.6
 -------------
 
