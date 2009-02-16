@@ -141,7 +141,7 @@ class sfFileCache extends sfCache
     {
       if (sfCache::ALL == $mode || time() > $this->read($file, self::READ_TIMEOUT))
       {
-        $result = $result && @unlink($file);
+        $result = @unlink($file) && $result;
       }
     }
 
