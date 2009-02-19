@@ -29,7 +29,7 @@ class sfValidatorPropelChoiceMany extends sfValidatorPropelChoice
     }
 
     $criteria = is_null($this->getOption('criteria')) ? new Criteria() : clone $this->getOption('criteria');
-    $criteria->add($this->getColumn(), $values, Criteria::IN);
+    $criteria->addAnd($this->getColumn(), $values, Criteria::IN);
 
     $objects = call_user_func(array($this->getOption('model').'Peer', 'doSelect'), $criteria, $this->getOption('connection'));
 
