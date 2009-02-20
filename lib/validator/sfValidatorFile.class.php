@@ -29,10 +29,11 @@ class sfValidatorFile extends sfValidatorBase
    *
    * Available options:
    *
-   *  * max_size:           The maximum file size
-   *  * mime_types:         Allowed mime types array or category (available categories: web_images)
-   *  * mime_type_guessers: An array of mime type guesser PHP callables (must return the mime type or null)
-   *  * mime_categories:    An array of mime type categories (web_images is defined by default)
+   *  * max_size:             The maximum file size
+   *  * mime_types:           Allowed mime types array or category (available categories: web_images)
+   *  * mime_type_guessers:   An array of mime type guesser PHP callables (must return the mime type or null)
+   *  * mime_categories:      An array of mime type categories (web_images is defined by default)
+   *  * validated_file_class: Name of the class that manages the cleaned uploaded file (optional)
    *
    * There are 3 built-in mime type guessers:
    *
