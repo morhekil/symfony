@@ -409,21 +409,21 @@ class sfBrowser
   {
     if (is_null($this->context) || $forceReload)
     {
-      if (!is_null($this->context))
-      {
-        $currentConfiguration = $this->context->getConfiguration();
-        $configuration = ProjectConfiguration::getApplicationConfiguration($currentConfiguration->getApplication(), $currentConfiguration->getEnvironment(), $currentConfiguration->isDebug());
-        $this->context = sfContext::createInstance($configuration);
-        unset($currentConfiguration);
+      $isContextEmpty = is_null($this->context);
+      $context = $isContextEmpty ? sfContext::getInstance() : $this->context;
 
+      $currentConfiguration = $context->getConfiguration();
+      $configuration = ProjectConfiguration::getApplicationConfiguration($currentConfiguration->getApplication(), $currentConfiguration->getEnvironment(), $currentConfiguration->isDebug());
+      $this->context = sfContext::createInstance($configuration);
+      unset($currentConfiguration);
+
+      if (!$isContextEmpty)
+      {
         sfConfig::clear();
         sfConfig::add($this->rawConfiguration);
       }
       else
       {
-        $this->context = sfContext::getInstance();
-        $this->context->initialize($this->context->getConfiguration());
-
         $this->rawConfiguration = sfConfig::getAll();
       }
 
