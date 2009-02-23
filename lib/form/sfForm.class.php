@@ -850,20 +850,16 @@ class sfForm implements ArrayAccess
   static public function arrayToPaths($array = array(), $prefix = '')
   {
     $str = '';
-    $freshPrefix = $prefix;
 
     foreach ($array as $key => $value)
     {
-      $freshPrefix .= "/{$key}";
-
       if (is_array($value))
       {
-        $str .= self::arrayToPaths($value, $freshPrefix);
-        $freshPrefix = $prefix;
+        $str .= self::arrayToPaths($value, $prefix.'/'.$key);
       }
       else
       {
-        $str .= "{$prefix}/{$key} = {$value}\n";
+        $str .= "$prefix/$key = $value\n";
       }
     }
 
