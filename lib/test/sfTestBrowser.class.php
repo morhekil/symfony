@@ -366,6 +366,10 @@ class sfTestBrowser extends sfBrowser
       {
         $this->test()->ok($e instanceof $class, sprintf('response returns an exception of class "%s"', $class));
       }
+      else
+      {
+        $lime = null;
+      }
 
       if (null !== $message && preg_match('/^(!)?([^a-zA-Z0-9\\\\]).+?\\2[ims]?$/', $message, $match))
       {
