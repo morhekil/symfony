@@ -352,9 +352,10 @@ class sfForm implements ArrayAccess
 
     $this->defaults = array_merge($this->defaults, $form->getDefaults());
 
-    foreach ($form->getWidgetSchema()->getFields() as $field => $widget)
+    $widgets = $form->getWidgetSchema()->getFields();
+    foreach ($form->getWidgetSchema()->getPositions() as $field)
     {
-      $this->widgetSchema[$field] = $widget;
+      $this->widgetSchema[$field] = $widgets[$field];
     }
 
     foreach ($form->getValidatorSchema()->getFields() as $field => $validator)

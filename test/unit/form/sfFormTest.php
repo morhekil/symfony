@@ -10,7 +10,7 @@
 
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 
-$t = new lime_test(103, new lime_output_color());
+$t = new lime_test(104, new lime_output_color());
 
 class FormTest extends sfForm
 {
@@ -640,3 +640,10 @@ catch (LogicException $e)
 
 $errorSchema = $f1->getErrorSchema();
 $t->ok(array_key_exists('d', $errorSchema->getErrors()), 'mergeForm() merges errors after having been bound');
+
+$f1 = new TestForm1();
+$f1->getWidgetSchema()->moveField('a', 'last');
+$f2 = new TestForm2();
+$f2->mergeForm($f1);
+
+$t->is_deeply(array_keys($f2->getWidgetSchema()->getFields()), array('c', 'd', 'b', 'a'), 'mergeForm() merges fields in the correct order');
