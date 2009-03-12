@@ -218,7 +218,7 @@ class sfWidgetFormSchema extends sfWidgetForm implements ArrayAccess
   }
 
   /**
-   * Sets the labels.
+   * Gets the labels.
    *
    * @return array An array of label names
    */
