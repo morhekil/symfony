@@ -64,7 +64,7 @@ class symfony_cmd
   }
 }
 
-$t = new lime_test(33, new lime_output_color());
+$t = new lime_test(34, new lime_output_color());
 
 if (!extension_loaded('SQLite'))
 {
@@ -92,6 +92,7 @@ $t->ok(is_dir($c->tmp_dir.DS.'apps'.DS.'frontend'.DS.'modules'.DS.'foo'), '"gene
 copy(dirname(__FILE__).'/fixtures/propel/schema.yml', $c->tmp_dir.DS.'config'.DS.'schema.yml');
 copy(dirname(__FILE__).'/fixtures/propel/databases.yml', $c->tmp_dir.DS.'config'.DS.'databases.yml');
 copy(dirname(__FILE__).'/fixtures/propel/propel.ini', $c->tmp_dir.DS.'config'.DS.'propel.ini');
+copy(dirname(__FILE__).'/fixtures/factories.yml', $c->tmp_dir.DS.'apps'.DS.'frontend'.DS.'config'.DS.'factories.yml');
 
 // propel:*
 $content = $c->execute_command('propel:build-sql');
@@ -137,5 +138,7 @@ $t->like(file_get_contents($c->tmp_dir.DS.'config'.DS.'ProjectConfiguration.clas
 
 $content = $c->execute_command('project:unfreeze');
 $t->unlike(file_get_contents($c->tmp_dir.DS.'config'.DS.'ProjectConfiguration.class.php'), '/dirname\(__FILE__\)/', '"project:unfreeze" unfreezes symfony lib and data dir');
+
+$content = $c->execute_command('cache:clear');
 
 $c->shutdown();
