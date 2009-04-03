@@ -93,7 +93,7 @@ class sfWebDebugLogger extends sfLogger
     if (!$this->context->has('request') || !$this->context->has('response') || !$this->context->has('controller') ||
       $this->context->getRequest()->isXmlHttpRequest() ||
       strpos($response->getContentType(), 'html') === false ||
-      $response->getStatusCode() == 304 ||
+      '3' == substr($response->getStatusCode(), 0, 1) ||
       $this->context->getController()->getRenderMode() != sfView::RENDER_CLIENT ||
       $response->isHeaderOnly()
     )
