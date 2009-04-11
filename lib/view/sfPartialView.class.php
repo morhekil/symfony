@@ -20,7 +20,7 @@ class sfPartialView extends sfPHPView
 {
   protected
     $viewCache   = null,
-    $isCacheable = false,
+    $checkCache  = false,
     $cacheKey    = null,
     $partialVars = array();
 
@@ -34,7 +34,11 @@ class sfPartialView extends sfPHPView
     $ret = parent::initialize($context, $moduleName, $actionName, $viewName);
 
     $this->viewCache = $this->context->getViewCacheManager();
-    $this->isCacheable = sfConfig::get('sf_cache') && $this->viewCache->isCacheable($this->moduleName, $this->actionName);
+
+    if (sfConfig::get('sf_cache'))
+    {
+      $this->checkCache = sfConfig::get('sf_lazy_cache_key') ? $this->viewCache->isActionCacheable($moduleName, $actionName) : true;
+    }
 
     return $ret;
   }
@@ -88,7 +92,7 @@ class sfPartialView extends sfPHPView
     {
       return $retval;
     }
-    else if ($this->isCacheable)
+    else if ($this->checkCache)
     {
       $mainResponse = $this->context->getResponse();
       $responseClass = get_class($mainResponse);
@@ -103,9 +107,8 @@ class sfPartialView extends sfPHPView
     // render template
     $retval = $this->renderFile($this->getDirectory().'/'.$this->getTemplate());
 
-    if ($this->isCacheable)
+    if ($this->checkCache)
     {
-      $this->cacheKey = $this->viewCache->checkCacheKey($this->partialVars);
       $retval = $this->viewCache->setPartialCache($this->moduleName, $this->actionName, $this->cacheKey, $retval);
       $this->context->setResponse($mainResponse);
       $mainResponse->merge($response);
@@ -121,7 +124,7 @@ class sfPartialView extends sfPHPView
 
   public function getCache()
   {
-    if (!$this->isCacheable)
+    if (!$this->checkCache)
     {
       return null;
     }
