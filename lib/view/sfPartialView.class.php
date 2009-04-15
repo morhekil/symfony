@@ -99,13 +99,26 @@ class sfPartialView extends sfPHPView
       $this->context->setResponse($response = new $responseClass($this->context->getEventDispatcher(), $mainResponse->getOptions()));
     }
 
-    // execute pre-render check
-    $this->preRenderCheck();
+    try
+    {
+      // execute pre-render check
+      $this->preRenderCheck();
 
-    $this->getAttributeHolder()->set('sf_type', 'partial');
+      $this->getAttributeHolder()->set('sf_type', 'partial');
 
-    // render template
-    $retval = $this->renderFile($this->getDirectory().'/'.$this->getTemplate());
+      // render template
+      $retval = $this->renderFile($this->getDirectory().'/'.$this->getTemplate());
+    }
+    catch (Exception $e)
+    {
+      if ($this->checkCache)
+      {
+        $this->context->setResponse($mainResponse);
+        $mainResponse->merge($response);
+      }
+
+      throw $e;
+    }
 
     if ($this->checkCache)
     {
