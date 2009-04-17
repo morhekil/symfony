@@ -91,7 +91,7 @@
     if ( isset($html_options['confirm']) )
     {
       $confirm = escape_javascript($html_options['confirm']);
-      $html_options['onclick'] = "if(confirm('$confirm')){ $function;}; return false;";
+      $html_options['onclick'] = "if(window.confirm('$confirm')){ $function;}; return false;";
     }
     else
     {
