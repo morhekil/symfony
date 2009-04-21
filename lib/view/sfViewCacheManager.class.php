@@ -338,6 +338,8 @@ class sfViewCacheManager
   {
     list($route_name, $params) = $this->controller->convertUrlStringToParameters($internalUri);
 
+    $this->registerConfiguration($params['module']);
+
     $value = $defaultValue;
     if (isset($this->cacheConfig[$params['module']][$params['action']][$key]))
     {
@@ -373,6 +375,8 @@ class sfViewCacheManager
 
     list($route_name, $params) = $this->controller->convertUrlStringToParameters($internalUri);
 
+    $this->registerConfiguration($params['module']);
+
     if (isset($this->cacheConfig[$params['module']][$params['action']]))
     {
       return ($this->cacheConfig[$params['module']][$params['action']]['lifeTime'] > 0);
@@ -401,6 +405,8 @@ class sfViewCacheManager
     {
       return false;
     }
+
+    $this->registerConfiguration($moduleName);
 
     if (isset($this->cacheConfig[$moduleName][$actionName]))
     {
