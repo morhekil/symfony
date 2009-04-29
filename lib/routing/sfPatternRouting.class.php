@@ -626,23 +626,23 @@ class sfPatternRouting extends sfRouting
 
     return $this->currentRouteParameters;
   }
-  
-  
+
   /**
-  * Finds a matching route for given URL.
-  * Returned array contains:
-  *  - name       : name or alias of the route that matched
-  *  - route      : the actual matching route
-  *  - parameters : array containing key value pairs of the request parameters including defaults
-  *
-  * @param  string $url  URL to be parsed
-  *
-  * @return array  An array with routing information or null if no route matched
-  */
+   * Finds a matching route for given URL.
+   *
+   * Returned array contains:
+   *  - name       : name or alias of the route that matched
+   *  - route      : the actual matching route
+   *  - parameters : array containing key value pairs of the request parameters including defaults
+   *
+   * @param  string $url  URL to be parsed
+   *
+   * @return array  An array with routing information or null if no route matched
+   */
   public function findRoute($url)
   {
     // an URL should start with a '/', mod_rewrite doesn't respect that, but no-mod_rewrite version does.
-    if ('/' != $url[0])
+    if ('/' != substr($url, 0, 1))
     {
       $url = '/'.$url;
     }
