@@ -47,7 +47,7 @@ class sfDebug
     // assign extension version
     if ($values['extensions'])
     {
-      foreach($values['extensions'] as $key => $extension)
+      foreach ($values['extensions'] as $key => $extension)
       {
         $values['extensions'][$key] = phpversion($extension) ? sprintf('%s (%s)', $extension, phpversion($extension)) : $extension;
       }
