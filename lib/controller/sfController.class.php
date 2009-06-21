@@ -53,7 +53,7 @@ abstract class sfController
     }
 
     // set max forwards
-    $this->maxForwards = sfConfig::get('sf_max_forwards');
+    $this->maxForwards = sfConfig::get('sf_max_forwards', $this->maxForwards);
   }
 
   /**
