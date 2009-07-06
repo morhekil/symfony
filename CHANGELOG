@@ -1,3 +1,29 @@
+Version 1.1.8
+-------------
+
+**WARNING**: 1.1.8 will be the last supported version of symfony 1.1. Only security fixes will be backported until June 1010.
+
+ * added check in `sfActions` that prefents infinite recursion in the execute method when the action name is empty (fixes [#6710](http://trac.symfony-project.org/ticket/6710))
+ * fixed `generateCacheKey` does not coverts dots to underscorse in user given hostname (closes [#6252](http://trac.symfony-project.org/ticket/6252))
+ * fixed loading order of tasks (refs #5348) 
+ * fixed `format_currency` returns Exponents (closes #5715) 
+ * fixed error message when an `UPLOAD_ERR_INI_SIZE` occurs on an uploaded file (closes #6453) 
+ * fixed sfPager::getLinks() to always return integers (closes #6428) 
+ * fixed rare occassion when a widget schema is paired with a simple validator error rather than a validator error schema (see r17587)
+ * `doSelectWithI18n` no longer accidentally modifies the `Criteria` passed to it (fixes #6243) 
+ * enhanced cache loading performance, a `sf_lazy_cache_key` setting is now available in `settings.yml` to ensure BC (see r16905 and r17217)
+ * removed the web debug toolbar when the response status code is in the `3xx` range (closes #6153) 
+ * Added proxies to `sfOutputEscaperSafe` so safe vars work as expected when accessed from an action (closes #6147) 
+ * fixed possible race-condition in `sfConfigCache`. (fixes #6132) 
+ * fixed `sfPluginManager` doesn't install dependencies recursively (closes #5998)
+ * fixed form submissions when posted data exceeds `post_max_size` (closes #6081)
+ * fixed `command.filter_options` doesn't filter anything (closes #6038) 
+ * fixed `sfYaml::load` wrong parsing with `\r\n` (closes #6053) 
+ * fixed `sfForm::mergeForm()` ignores reordered widgets (closes #5951) 
+ * fixed `propel:schema-to-yml` composite foreign-Keys wrongly converted (closes #5483) 
+ * fixed `sf_culture` being set automatically when testing, but not when using the site (closes #5852)
+ * fixed `sfForm` problem when file upload widgets are embedded (closes #5252) 
+
 Version 1.1.7
 -------------
 
