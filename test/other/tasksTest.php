@@ -64,7 +64,7 @@ class symfony_cmd
   }
 }
 
-$t = new lime_test(34, new lime_output_color());
+$t = new lime_test(37, new lime_output_color());
 
 if (!extension_loaded('SQLite'))
 {
@@ -140,5 +140,16 @@ $content = $c->execute_command('project:unfreeze');
 $t->unlike(file_get_contents($c->tmp_dir.DS.'config'.DS.'ProjectConfiguration.class.php'), '/dirname\(__FILE__\)/', '"project:unfreeze" unfreezes symfony lib and data dir');
 
 $content = $c->execute_command('cache:clear');
+
+// Test task autoloading
+mkdir($c->tmp_dir.DS.'lib'.DS.'task');
+copy(dirname(__FILE__).'/fixtures/task/aTask.class.php', $c->tmp_dir.DS.'lib'.DS.'task'.DS.'aTask.class.php');
+copy(dirname(__FILE__).'/fixtures/task/zTask.class.php', $c->tmp_dir.DS.'lib'.DS.'task'.DS.'zTask.class.php');
+mkdir($pluginDir = $c->tmp_dir.DS.'plugins'.DS.'myFooPlugin'.DS.'lib'.DS.'task', 0777, true);
+copy(dirname(__FILE__).'/fixtures/task/myPluginTask.class.php', $pluginDir.DS.'myPluginTask.class.php');
+
+$c->execute_command('a:run');
+$c->execute_command('z:run');
+$c->execute_command('p:run');
 
 $c->shutdown();
