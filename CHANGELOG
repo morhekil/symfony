@@ -1,7 +1,12 @@
-Version 1.1.8
+Version 1.1.9
 -------------
 
-**WARNING**: 1.1.8 will be the last supported version of symfony 1.1. Only security fixes will be backported until June 1010.
+**WARNING**: 1.1.9 is the last supported version of symfony 1.1. Only security fixes will be backported until June 1010.
+
+ * fixed fatal error extending task (#6770)
+
+Version 1.1.8
+-------------
 
  * added check in `sfActions` that prefents infinite recursion in the execute method when the action name is empty (fixes [#6710](http://trac.symfony-project.org/ticket/6710))
  * fixed `generateCacheKey` does not coverts dots to underscorse in user given hostname (closes [#6252](http://trac.symfony-project.org/ticket/6252))
