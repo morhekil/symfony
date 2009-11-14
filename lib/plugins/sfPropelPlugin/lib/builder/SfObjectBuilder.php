@@ -172,7 +172,7 @@ $script .= '
 
     if (!isset($this->current_i18n[$culture]))
     {
-      $obj = '.$className.'Peer::retrieveByPK($this->get'.$pk.'(), $culture);
+      $obj = $this->isNew() ? null : '.$className.'Peer::retrieveByPK($this->get'.$pk.'(), $culture);
       if ($obj)
       {
         $this->set'.$className.'ForCulture($obj, $culture);
