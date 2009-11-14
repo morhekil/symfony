@@ -24,8 +24,8 @@ class CrudBrowser extends sfTestBrowser
     chdir($this->projectDir);
     $task = new sfPropelGenerateModuleTask(new sfEventDispatcher(), new sfFormatter());
     $options[] = 'env=test';
-    $options[] = 'singular='.$singularName;
-    $options[] = 'plural='.$pluralName;
+    $options[] = 'singular='.$this->singularName;
+    $options[] = 'plural='.$this->pluralName;
     $options[] = '--non-verbose-templates';
     $task->run(array('crud', 'article', 'Article'), $options);
 
