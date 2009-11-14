@@ -438,6 +438,7 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
   {
     if (!isset($this->cache['getTemplateDir'][$moduleName][$templateFile]))
     {
+      $this->cache['getTemplateDir'][$moduleName][$templateFile] = null;
       foreach ($this->getTemplateDirs($moduleName) as $dir)
       {
         if (is_readable($dir.'/'.$templateFile))

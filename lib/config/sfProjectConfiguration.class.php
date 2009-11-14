@@ -444,23 +444,21 @@ class sfProjectConfiguration
   {
     if (!isset($this->cache['getPluginPaths']))
     {
-      if (array_key_exists('', $this->pluginPaths))
+      if (!isset($this->pluginPaths['']))
       {
-        return $this->pluginPaths[''];
-      }
+        $pluginPaths = $this->getAllPluginPaths();
 
-      $pluginPaths = $this->getAllPluginPaths();
-
-      $this->pluginPaths[''] = array();
-      foreach ($this->getPlugins() as $plugin)
-      {
-        if (isset($pluginPaths[$plugin]))
+        $this->pluginPaths[''] = array();
+        foreach ($this->getPlugins() as $plugin)
         {
-          $this->pluginPaths[''][] = $pluginPaths[$plugin];
-        }
-        else
-        {
-          throw new InvalidArgumentException(sprintf('The plugin "%s" does not exist.', $plugin));
+          if (isset($pluginPaths[$plugin]))
+          {
+            $this->pluginPaths[''][] = $pluginPaths[$plugin];
+          }
+          else
+          {
+            throw new InvalidArgumentException(sprintf('The plugin "%s" does not exist.', $plugin));
+          }
         }
       }
 
