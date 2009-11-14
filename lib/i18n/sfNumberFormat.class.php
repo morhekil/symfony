@@ -175,7 +175,7 @@ class sfNumberFormat
     // if not decimal digits, assume 0 decimal points.
     if (is_int($decimalDigits) && $decimalDigits > 0)
     {
-      $string = (string) intval(round(floatval($string), $decimalDigits));
+      $string = (string) intval(round(((float)$string), $decimalDigits));
     }
 
     $dp = strpos($string, '.');
@@ -264,20 +264,17 @@ class sfNumberFormat
       }
       else if (is_int($decimalDigits))
       {
-        if (false === $pos = strpos($string, '.'))
+        $float = round((float)$string, $decimalDigits);
+        if (false === $pos = strpos($float, '.'))
         {
           $decimal = str_pad($decimal, $decimalDigits, '0');
         }
         else
         {
-          $decimal = substr($string, $pos + 1);
+          $decimal = substr($float, $pos + 1);
           if (strlen($decimal) <= $decimalDigits)
           {
             $decimal = str_pad($decimal, $decimalDigits, '0');
-          }
-          else
-          {
-            $decimal = substr($decimal, 0, $decimalDigits);
           }
         }
       }
@@ -333,15 +330,24 @@ class sfNumberFormat
   {
     $string = (string) $float;
 
-    if (false === strstr($float, 'E'))
+    if (false === strpos($float, 'E'))
     {
       return $string;
     }
 
     list($significand, $exp) = explode('E', $string);
     list(, $decimal) = explode('.', $significand);
+    if ('+' === $exp{0})
+    {
     $exp = str_replace('+', '', $exp) - strlen($decimal);
 
     return str_replace('.', '', $significand).str_repeat('0', $exp);
+  }
+    if ('-' === $exp{0})
+    {
+        $exp = str_replace('-', '', $exp) - strlen($decimal);
+
+        return '0.'.str_repeat('0', $exp).str_replace('.', '', rtrim($significand, 0));
+}
   }
 }
