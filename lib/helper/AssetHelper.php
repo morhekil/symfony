@@ -417,7 +417,7 @@ function _compute_public_path($source, $dir, $ext, $absolute = false)
   {
     $stat = stat($file);
     $query_string .= $query_string ? '&' : '?';
-    $query_string .= dechex($stat['mtime']);
+    $query_string .= $stat['mtime'];
   }
 
   if ($absolute)
