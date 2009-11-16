@@ -91,7 +91,7 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
   }
 
   /**
-   * @see sfProjectConfiguration
+   * Various initializations.
    */
   public function initConfiguration()
   {
@@ -104,7 +104,7 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
     }
 
     // required core classes for the framework
-    if (!sfConfig::get('sf_debug') && !sfConfig::get('sf_test') && !self::$coreLoaded)
+    if (!$this->isDebug() && !sfConfig::get('sf_test') && !self::$coreLoaded)
     {
       $configCache->import('config/core_compile.yml', false);
     }
