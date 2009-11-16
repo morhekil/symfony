@@ -439,6 +439,8 @@ class sfProjectConfiguration
    * Gets the paths to plugins root directories, minding overloaded plugins.
    *
    * @return array The plugin root paths.
+   *
+   * @throws InvalidArgumentException If an enabled plugin does not exist
    */
   public function getPluginPaths()
   {
