@@ -665,6 +665,10 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
 
             throw new InvalidArgumentException(sprintf('Unable to load "%sHelper.php" helper in: %s.', $helperName, implode(', ', $dirs)));
           }
+          else
+          {
+            $this->dispatcher->notify(new sfEvent($this, 'application.log', array('Loading of helpers via the include path has been deprecated.', 'priority' => sfLogger::NOTICE)));
+          }
         }
       }
 
