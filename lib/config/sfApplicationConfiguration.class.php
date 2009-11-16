@@ -341,17 +341,20 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
     {
       $dirs = array();
 
-      $dirs[sfConfig::get('sf_app_module_dir').'/'.$moduleName.'/actions'] = false;  // application
+      $dirs[sfConfig::get('sf_app_module_dir').'/'.$moduleName.'/actions'] = false; // application
 
       foreach ($this->getPluginPaths() as $path)
       {
         if (is_dir($dir = $path.'/modules/'.$moduleName.'/actions'))
         {
-          $dirs[$dir] = true;                                                        // plugins
+          $dirs[$dir] = true; // plugins
         }
       }
 
-      $dirs[$this->getSymfonyLibDir().'/controller/'.$moduleName.'/actions'] = true; // core modules
+      if (is_dir($dir = $this->getSymfonyLibDir().'/controller/'.$moduleName.'/actions'))
+      {
+        $dirs[$dir] = true; // core modules
+      }
 
       $this->cache['getControllerDirs'][$moduleName] = $dirs;
     }
@@ -604,7 +607,6 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
    */
   public function loadHelpers($helpers, $moduleName = '')
   {
-    $dirs = $this->getHelperDirs($moduleName);
     foreach ((array) $helpers as $helperName)
     {
       if (isset(self::$loadedHelpers[$helperName]))
@@ -612,27 +614,44 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
         continue;
       }
 
-      $fileName = $helperName.'Helper.php';
-      foreach ($dirs as $dir)
+      if (isset($this->cache['loadedHelpers'][$moduleName][$helperName]))
       {
-        $included = false;
-        if (is_readable($dir.'/'.$fileName))
-        {
-          include_once($dir.'/'.$fileName);
-          $included = true;
-          break;
-        }
+        include_once $this->cache['loadedHelpers'][$moduleName][$helperName];
       }
-
-      if (!$included)
+      else if (isset($this->cache['loadedHelpers'][''][$helperName]))
       {
-        // search in the include path
-        if ((@include_once('helper/'.$fileName)) != 1)
-        {
-          $dirs = array_merge($dirs, explode(PATH_SEPARATOR, get_include_path()));
-          $dirs = array_map(array('sfDebug', 'shortenFilePath'), $dirs);
+        include_once $this->cache['loadedHelpers'][''][$helperName];
+      }
+      else
+      {
+        $fileName = $helperName.'Helper.php';
 
-          throw new InvalidArgumentException(sprintf('Unable to load "%sHelper.php" helper in: %s.', $helperName, implode(', ', $dirs)));
+        if (!isset($dirs))
+        {
+          $dirs = $this->getHelperDirs($moduleName);
+        }
+
+        foreach ($dirs as $dir)
+        {
+          $included = false;
+          if (is_readable($dir.'/'.$fileName))
+          {
+            include_once $dir.'/'.$fileName;
+            $included = true;
+            break;
+          }
+        }
+
+        if (!$included)
+        {
+          // search in the include path
+          if ((@include_once('helper/'.$fileName)) != 1)
+          {
+            $dirs = array_merge($dirs, explode(PATH_SEPARATOR, get_include_path()));
+            $dirs = array_map(array('sfDebug', 'shortenFilePath'), $dirs);
+
+            throw new InvalidArgumentException(sprintf('Unable to load "%sHelper.php" helper in: %s.', $helperName, implode(', ', $dirs)));
+          }
         }
       }
 
