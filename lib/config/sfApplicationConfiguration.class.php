@@ -27,7 +27,8 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
     $application = null,
     $environment = null,
     $debug       = false,
-    $config      = array();
+    $config      = array(),
+    $cache       = null;
 
   /**
    * Constructor.
@@ -468,6 +469,18 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
     $dir = $this->getTemplateDir($moduleName, $templateFile);
 
     return $dir ? $dir.'/'.$templateFile : null;
+  }
+  /**
+   * @see sfProjectConfiguration
+   */
+  public function getPluginPaths()
+  {
+    if (!isset($this->cache['getPluginPaths']))
+    {
+      $this->cache['getPluginPaths'] = parent::getPluginPaths();
+    }
+
+    return $this->cache['getPluginPaths'];
   }
 
   /**
