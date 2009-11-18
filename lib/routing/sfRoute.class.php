@@ -314,6 +314,21 @@ class sfRoute implements Serializable
   }
 
   /**
+   * Returns the route parameters.
+   *
+   * @return array The route parameters
+   */
+  public function getParameters()
+  {
+    if (!$this->compiled)
+    {
+      $this->compile();
+    }
+
+    return $this->parameters;
+  }
+
+  /**
    * Returns the compiled pattern.
    *
    * @return string The compiled pattern
