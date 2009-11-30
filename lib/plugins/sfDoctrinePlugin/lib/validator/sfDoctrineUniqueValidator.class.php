@@ -52,7 +52,7 @@ class sfDoctrineUniqueValidator extends sfValidator
     // implied assumption: the is at least one primary key
     foreach ($primaryKeys as $primaryKey)
     {
-      if (null === $primaryKeyValue = $this->getContext(->getRequest()->getParameter($primaryKey)))
+      if (null === $primaryKeyValue = $this->getContext()->getRequest()->getParameter($primaryKey))
       {
         break;
       }
