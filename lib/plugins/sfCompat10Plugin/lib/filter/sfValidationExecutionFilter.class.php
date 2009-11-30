@@ -64,7 +64,7 @@ class sfValidationExecutionFilter extends sfFilter
     $filterChain->execute();
   }
 
-  /*
+  /**
    * Handles the action.
    *
    * @param  sfFilterChain The current filter chain
@@ -74,12 +74,14 @@ class sfValidationExecutionFilter extends sfFilter
    */
   protected function handleAction($filterChain, $actionInstance)
   {
-    $uri = $this->context->getRouting()->getCurrentInternalUri();
-
-    if (sfConfig::get('sf_cache') && !is_null($uri) && $this->context->getViewCacheManager()->hasActionCache($uri))
+    if (sfConfig::get('sf_cache'))
     {
-      // action in cache, so go to the view
-      return sfView::SUCCESS;
+      $uri = $this->context->getViewCacheManager()->getCurrentCacheKey();
+      if (null !== $uri && $this->context->getViewCacheManager()->hasActionCache($uri))
+      {
+        // action in cache, so go to the view
+        return sfView::SUCCESS;
+      }
     }
 
     return $this->validateAction($filterChain, $actionInstance) ? $this->executeAction($actionInstance) : $this->handleErrorAction($actionInstance);
