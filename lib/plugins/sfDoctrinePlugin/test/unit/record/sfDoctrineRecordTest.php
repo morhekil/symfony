@@ -3,7 +3,7 @@
 $app = 'frontend';
 include dirname(__FILE__).'/../../bootstrap/functional.php';
 
-$t = new lime_test(7);
+$t = new lime_test(8);
 
 // ->__construct()
 $t->diag('->__construct()');
@@ -56,5 +56,12 @@ $article = new Article();
 try {
 $article->setAuthor(new stdClass());
 } catch (Exception $e) {
-  $t->is($e->getMessage(), 'Couldn\'t call Doctrine_Core::set(), second argument should be an instance of Doctrine_Record or Doctrine_Null when setting one-to-one references.');
+  $t->is($e->getMessage(), 'Couldn\'t call Doctrine_Core::set(), second argument should be an instance of Doctrine_Record or Doctrine_Null when setting one-to-one references.', 'Making sure proper exception message is thrown');
 }
+
+$article = new Article();
+$article->title = 'testing this out';
+$serialized = serialize($article);
+$article = unserialize($serialized);
+
+$t->is($article->getTitle(), 'testing this out', 'making sure getTitle() is still accessible after unserializing');
