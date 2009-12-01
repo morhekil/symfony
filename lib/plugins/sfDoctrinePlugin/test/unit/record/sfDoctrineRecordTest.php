@@ -3,7 +3,7 @@
 $app = 'frontend';
 include dirname(__FILE__).'/../../bootstrap/functional.php';
 
-$t = new lime_test(8);
+$t = new lime_test(9);
 
 // ->__construct()
 $t->diag('->__construct()');
@@ -64,4 +64,14 @@ $article->title = 'testing this out';
 $serialized = serialize($article);
 $article = unserialize($serialized);
 
-$t->is($article->getTitle(), 'testing this out', 'making sure getTitle() is still accessible after unserializing');
+$t->is($article->getTitle(), 'testing this out', 'Making sure getTitle() is still accessible after unserializing');
+
+try {
+  $test = new ModelWithNumberInColumn();
+  $test->getColumn1();
+  $test->getColumn2();
+  $test->getColumn_3();
+  $t->pass('Make sure __call() handles fields with *_(n) in the field name');
+} catch (Exception $e) {
+  $t->fail('__call() failed in sfDoctrineRecord');
+}
